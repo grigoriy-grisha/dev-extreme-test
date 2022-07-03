@@ -10,7 +10,7 @@ import DataGrid from "devextreme-react/data-grid";
 import "devextreme/data/odata/store";
 import { Column } from "devextreme/ui/data_grid";
 
-import useForceUpdate from "../../../hooks/useForceUpdate";
+import useForceUpdate from "hooks/useForceUpdate";
 
 import { DataGridManager } from "./model/DataGridManager";
 
@@ -53,6 +53,7 @@ function DataGridColumnsManipulator({
     dataGridManager.subscribe(notifyColumns);
     return () => dataGridManager.unsubscribe(notifyColumns);
   }, []);
+
   useEffect(notifyColumns, []);
 
   useImperativeHandle(setDataGridManager, () => dataGridManager, []);

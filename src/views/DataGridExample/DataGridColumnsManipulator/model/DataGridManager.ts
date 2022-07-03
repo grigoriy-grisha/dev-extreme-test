@@ -11,6 +11,14 @@ export class DataGridManager {
   private listeners: Set<() => void> = new Set();
   private nativeInstance: DataGrid["instance"] = null!;
 
+  subscribe(fn: any) {
+    this.listeners.add(fn);
+  }
+
+  unsubscribe(fn: any) {
+    this.listeners.delete(fn);
+  }
+
   getNativeInstance() {
     return this.nativeInstance;
   }
@@ -48,14 +56,6 @@ export class DataGridManager {
 
   private notify() {
     this.listeners.forEach((fn) => fn());
-  }
-
-  subscribe(fn: any) {
-    this.listeners.add(fn);
-  }
-
-  unsubscribe(fn: any) {
-    this.listeners.delete(fn);
   }
 
   private getColumnByDataField(dataField: string) {

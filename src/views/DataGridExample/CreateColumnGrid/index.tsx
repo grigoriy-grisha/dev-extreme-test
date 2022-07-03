@@ -2,6 +2,10 @@ import { memo, useState } from "react";
 import { Button, SelectBox, TextBox } from "devextreme-react";
 import { Column, DataType, HorizontalAlignment } from "devextreme/ui/data_grid";
 
+import DXField from "primitives/DXField";
+
+import useEvent from "hooks/useEvent";
+
 import useRenameActionMode from "./hooks/useRenameActionMode";
 import { RenameActionMode } from "./types";
 
@@ -22,7 +26,7 @@ const dataTypes: DataType[] = [
   "datetime",
 ];
 
-function RenameAction({
+function CreateColumnGrid({
   actionText,
   cancelText,
   successText,
@@ -37,6 +41,13 @@ function RenameAction({
 
   const isPending = mode === RenameActionMode.Pending;
 
+  const onCreateColumn = useEvent(() => {
+    onSubmit({ dataField, alignment, caption, dataType });
+    setCaption("");
+    setDataField("");
+    setPending();
+  });
+
   return (
     <div>
       <Button
@@ -48,49 +59,41 @@ function RenameAction({
       />
       {mode === RenameActionMode.InAction && (
         <div className="pt-30">
-          <div className="dx-field">
-            <div className="dx-field-label">DataField</div>
-            <div className="dx-field-value">
+          <DXField
+            fieldLabel="DataField"
+            fieldBox={
               <TextBox onValueChange={setDataField} value={dataField} />
-            </div>
-          </div>
-          <div className="dx-field">
-            <div className="dx-field-label">Caption</div>
-            <div className="dx-field-value">
-              <TextBox onValueChange={setCaption} value={caption} />
-            </div>
-          </div>
-
-          <div className="dx-field">
-            <div className="dx-field-label">Align</div>
-            <div className="dx-field-value">
+            }
+          />
+          <DXField
+            fieldLabel="Caption"
+            fieldBox={<TextBox onValueChange={setCaption} value={caption} />}
+          />
+          <DXField
+            fieldLabel="Align"
+            fieldBox={
               <SelectBox
                 items={aligns}
                 value={alignment}
                 onValueChange={setAlignment}
               />
-            </div>
-          </div>
-          <div className="dx-field">
-            <div className="dx-field-label">Type</div>
-            <div className="dx-field-value">
+            }
+          />
+          <DXField
+            fieldLabel="Type"
+            fieldBox={
               <SelectBox
                 items={dataTypes}
                 value={dataType}
                 onValueChange={setDataType}
               />
-            </div>
-          </div>
+            }
+          />
           <Button
             width="100%"
             type="default"
             text={successText}
-            onClick={() => {
-              onSubmit({ dataField, alignment, caption, dataType });
-              setCaption("");
-              setDataField("");
-              setPending();
-            }}
+            onClick={onCreateColumn}
           />
         </div>
       )}
@@ -98,4 +101,4 @@ function RenameAction({
   );
 }
 
-export default memo(RenameAction);
+export default memo(CreateColumnGrid);
