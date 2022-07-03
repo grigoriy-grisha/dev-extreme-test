@@ -1,9 +1,9 @@
 import { memo, useState } from "react";
-import { Button } from "devextreme-react/button";
+import { Button, SelectBox, TextBox } from "devextreme-react";
+import { Column, DataType, HorizontalAlignment } from "devextreme/ui/data_grid";
+
 import useRenameActionMode from "./hooks/useRenameActionMode";
 import { RenameActionMode } from "./types";
-import { SelectBox, TextBox } from "devextreme-react";
-import { Column, DataType, HorizontalAlignment } from "devextreme/ui/data_grid";
 
 type RenameActionProps = {
   actionText: string;

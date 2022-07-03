@@ -1,12 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import "devextreme/data/odata/store";
-import DataGridColumnsManipulator from "../../components/TableViewer";
-
-import RenameAction from "../../components/RenameAction";
 import { Column } from "devextreme/ui/data_grid";
-import UpdateColumn from "./UpdateColumn";
-import { DataGridManager } from "../../components/TableViewer/model/DataGridManager";
+
 import useEvent from "../../hooks/useEvent";
+
+import UpdateColumn from "./UpdateColumn";
+import DataGridColumnsManipulator from "./DataGridColumnsManipulator";
+import { DataGridManager } from "./DataGridColumnsManipulator/model/DataGridManager";
+import RenameAction from "./RenameAction";
 
 const columnScheme = [
   {
@@ -28,11 +29,15 @@ function UpdateColumnComponent({
   column,
   dataGridManager,
 }: UpdateColumnComponentProps) {
-  const onDelete = useEvent(() =>
-    dataGridManager.removeColumn(column.dataField)
+  const onDelete = useCallback(
+    () => dataGridManager.removeColumn(column.dataField),
+    [column.dataField]
   );
-  const onChangeCaption = useEvent((newName: string) =>
-    dataGridManager.changeColumnName(column.dataField, newName)
+
+  const onChangeCaption = useCallback(
+    (newName: string) =>
+      dataGridManager.changeColumnName(column.dataField, newName),
+    [column.dataField]
   );
 
   return (

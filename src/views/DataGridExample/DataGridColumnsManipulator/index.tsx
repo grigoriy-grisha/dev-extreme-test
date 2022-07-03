@@ -1,5 +1,6 @@
 import React, {
   memo,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -10,14 +11,7 @@ import DataGrid from "devextreme-react/data-grid";
 import "devextreme/data/odata/store";
 import { Column } from "devextreme/ui/data_grid";
 import { DataGridManager } from "./model/DataGridManager";
-import useEvent from "../../hooks/useEvent";
-import useForceUpdate from "../../hooks/useForceUpdate";
-
-export type TableViewMutation = {
-  changeColumnName: (fieldName?: string, name?: string) => void;
-  removeColumn: (fieldName?: string) => void;
-  addColumn: (value: Column) => void;
-};
+import useForceUpdate from "../../../hooks/useForceUpdate";
 
 type TableScheme = {
   dataField: string;
@@ -47,10 +41,10 @@ function DataGridColumnsManipulator({
 
   const forceUpdate = useForceUpdate();
 
-  const notifyColumns = useEvent(() => {
+  const notifyColumns = useCallback(() => {
     onChangeColumns(dataGridManager.getNativeInstance().getVisibleColumns());
     forceUpdate();
-  });
+  }, []);
 
   useEffect(() => {
     dataGridManager.setNativeInstance(dataGrid.current.instance);
