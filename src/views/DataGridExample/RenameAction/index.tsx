@@ -44,10 +44,10 @@ function RenameAction({
         text={isPending ? actionText : cancelText}
         type="normal"
         stylingMode="contained"
-        onClick={() => (isPending ? setInAction() : setPending())}
+        onClick={isPending ? setInAction : setPending}
       />
       {mode === RenameActionMode.InAction && (
-        <div style={{ paddingTop: 30 }}>
+        <div className="pt-30">
           <div className="dx-field">
             <div className="dx-field-label">DataField</div>
             <div className="dx-field-value">

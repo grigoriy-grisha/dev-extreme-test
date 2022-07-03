@@ -2,6 +2,8 @@ import { memo, useState } from "react";
 import { TextBox } from "devextreme-react";
 import { Button } from "devextreme-react/button";
 
+import "./style.scss";
+
 type UpdateColumnProps = {
   fieldName?: string;
   onDelete: () => void;
@@ -14,14 +16,7 @@ function UpdateColumn({ onSuccess, onDelete, fieldName }: UpdateColumnProps) {
   return (
     <div>
       <TextBox onValueChange={setValue} defaultValue={fieldName} />
-      <div
-        style={{
-          paddingTop: 5,
-          display: "flex",
-          alignItems: "center",
-          gap: 5,
-        }}
-      >
+      <div className="update-column-actions">
         <Button type="default" icon="check" onClick={() => onSuccess(value)} />
         <Button type="normal" icon="close" onClick={onDelete} />
       </div>

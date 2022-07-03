@@ -41,7 +41,7 @@ function UpdateColumnComponent({
   );
 
   return (
-    <div style={{ paddingBottom: 10 }}>
+    <div className="pb-10">
       <UpdateColumn
         fieldName={column.caption}
         onDelete={onDelete}
@@ -51,7 +51,7 @@ function UpdateColumnComponent({
   );
 }
 
-export default function Task() {
+export default function DataGridExample() {
   const dataGridManagerRef = useRef<DataGridManager>({} as any);
   const [columns, setColumns] = useState<Array<Column>>([]);
 
@@ -60,8 +60,8 @@ export default function Task() {
   );
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: 3, padding: 10 }}>
+    <div className="d-flex">
+      <div className="p-10 w-75">
         <DataGridColumnsManipulator
           dataSource={dataSource}
           keyExpr="ID"
@@ -70,8 +70,8 @@ export default function Task() {
           setDataGridManager={setDataGridManager}
         />
       </div>
-      <div style={{ flex: 1, padding: 10 }}>
-        <div style={{ paddingBottom: 10 }}>
+      <div className="p-10 w-25">
+        <div className="pb-10">
           {columns.map((item, index) => (
             <UpdateColumnComponent
               column={item}
@@ -80,7 +80,6 @@ export default function Task() {
             />
           ))}
         </div>
-
         <RenameAction
           actionText="Добавить колонку"
           cancelText="Отмена"

@@ -7,11 +7,12 @@ import React, {
   useRef,
 } from "react";
 import DataGrid from "devextreme-react/data-grid";
-
 import "devextreme/data/odata/store";
 import { Column } from "devextreme/ui/data_grid";
-import { DataGridManager } from "./model/DataGridManager";
+
 import useForceUpdate from "../../../hooks/useForceUpdate";
+
+import { DataGridManager } from "./model/DataGridManager";
 
 type TableScheme = {
   dataField: string;
