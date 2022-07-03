@@ -1,13 +1,22 @@
-import React, { memo, useEffect, useImperativeHandle, useRef } from "react";
+import React, {
+  memo,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from "react";
 import DataGrid from "devextreme-react/data-grid";
 
 import "devextreme/data/odata/store";
 import { Column } from "devextreme/ui/data_grid";
+import { DataGridManager } from "./model/DataGridManager";
+import useEvent from "../../hooks/useEvent";
+import useForceUpdate from "../../hooks/useForceUpdate";
 
 export type TableViewMutation = {
   changeColumnName: (fieldName?: string, name?: string) => void;
   removeColumn: (fieldName?: string) => void;
-  addColumn: (value: Column | string) => void;
+  addColumn: (value: Column) => void;
 };
 
 type TableScheme = {
@@ -19,55 +28,39 @@ type TableScheme = {
 };
 
 type TableViewerProps = {
-  setTableViewMutator: (mutation: TableViewMutation) => void;
-  onChangeColumns: (columns: Array<Column>) => void;
+  setDataGridManager: (manager: DataGridManager) => void;
+  onChangeColumns: (columns: Column[]) => void;
   columnsScheme: TableScheme[];
   dataSource: any[];
   keyExpr: string;
 };
 
-function DataGridManager({
-  setTableViewMutator,
-  onChangeColumns,
+function DataGridColumnsManipulator({
   columnsScheme,
   dataSource,
   keyExpr,
+  setDataGridManager,
+  onChangeColumns,
 }: TableViewerProps) {
   const dataGrid = useRef<DataGrid>(null!);
+  const dataGridManager = useMemo(() => new DataGridManager(), []);
 
-  useImperativeHandle(
-    setTableViewMutator,
-    () => ({
-      addColumn: (columnOptions) => {
-        dataGrid.current.instance.addColumn(columnOptions);
-        onChangeColumns(dataGrid.current.instance.getVisibleColumns());
-      },
-      changeColumnName: (prevColumnName, newColumnName) => {
-        if (!prevColumnName || !newColumnName) return;
-        const columnName = dataGrid.current.instance
-          .getVisibleColumns()
-          .find((d) => d.dataField === prevColumnName);
-        if (!columnName) return;
+  const forceUpdate = useForceUpdate();
 
-        dataGrid.current.instance.deleteColumn(prevColumnName);
-        dataGrid.current.instance.addColumn({
-          ...columnName,
-          caption: newColumnName,
-        });
-        onChangeColumns(dataGrid.current.instance.getVisibleColumns());
-      },
-      removeColumn: (columnName) => {
-        if (!columnName) return;
-        dataGrid.current.instance.deleteColumn(columnName);
-        onChangeColumns(dataGrid.current.instance.getVisibleColumns());
-      },
-    }),
-    []
-  );
+  const notifyColumns = useEvent(() => {
+    onChangeColumns(dataGridManager.getNativeInstance().getVisibleColumns());
+    forceUpdate();
+  });
 
   useEffect(() => {
-    onChangeColumns(dataGrid.current.instance.getVisibleColumns());
+    dataGridManager.setNativeInstance(dataGrid.current.instance);
+
+    dataGridManager.subscribe(notifyColumns);
+    return () => dataGridManager.unsubscribe(notifyColumns);
   }, []);
+  useEffect(notifyColumns, []);
+
+  useImperativeHandle(setDataGridManager, () => dataGridManager, []);
 
   return (
     <DataGrid
@@ -79,4 +72,4 @@ function DataGridManager({
   );
 }
 
-export default memo(DataGridManager);
+export default memo(DataGridColumnsManipulator);

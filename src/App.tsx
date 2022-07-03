@@ -6,13 +6,13 @@ import "./themes/generated/theme.base.css";
 import "./themes/generated/theme.additional.css";
 import "./dx-styles.scss";
 
-import { TasksPage } from "./pages";
+import DataGridExample from "./views/DataGridExample";
 
 export default function Root() {
   return (
     <Router>
       <div className="app">
-        <TasksPage />
+        <DataGridExample />
       </div>
     </Router>
   );
