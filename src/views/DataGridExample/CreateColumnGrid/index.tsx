@@ -17,21 +17,9 @@ type RenameActionProps = {
 };
 
 const aligns: HorizontalAlignment[] = ["left", "right", "center"];
-const dataTypes: DataType[] = [
-  "string",
-  "boolean",
-  "date",
-  "number",
-  "object",
-  "datetime",
-];
+const dataTypes: DataType[] = ["string", "boolean", "date", "number", "object", "datetime"];
 
-function CreateColumnGrid({
-  actionText,
-  cancelText,
-  successText,
-  onSubmit,
-}: RenameActionProps) {
+function CreateColumnGrid({ actionText, cancelText, successText, onSubmit }: RenameActionProps) {
   const { mode, setInAction, setPending } = useRenameActionMode();
 
   const [dataField, setDataField] = useState("");
@@ -59,42 +47,17 @@ function CreateColumnGrid({
       />
       {mode === RenameActionMode.InAction && (
         <div className="pt-30">
-          <DXField
-            fieldLabel="DataField"
-            fieldBox={
-              <TextBox onValueChange={setDataField} value={dataField} />
-            }
-          />
-          <DXField
-            fieldLabel="Caption"
-            fieldBox={<TextBox onValueChange={setCaption} value={caption} />}
-          />
+          <DXField fieldLabel="DataField" fieldBox={<TextBox onValueChange={setDataField} value={dataField} />} />
+          <DXField fieldLabel="Caption" fieldBox={<TextBox onValueChange={setCaption} value={caption} />} />
           <DXField
             fieldLabel="Align"
-            fieldBox={
-              <SelectBox
-                items={aligns}
-                value={alignment}
-                onValueChange={setAlignment}
-              />
-            }
+            fieldBox={<SelectBox items={aligns} value={alignment} onValueChange={setAlignment} />}
           />
           <DXField
             fieldLabel="Type"
-            fieldBox={
-              <SelectBox
-                items={dataTypes}
-                value={dataType}
-                onValueChange={setDataType}
-              />
-            }
+            fieldBox={<SelectBox items={dataTypes} value={dataType} onValueChange={setDataType} />}
           />
-          <Button
-            width="100%"
-            type="default"
-            text={successText}
-            onClick={onCreateColumn}
-          />
+          <Button width="100%" type="default" text={successText} onClick={onCreateColumn} />
         </div>
       )}
     </div>

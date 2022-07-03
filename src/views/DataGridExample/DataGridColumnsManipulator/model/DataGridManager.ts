@@ -59,8 +59,6 @@ export class DataGridManager {
   }
 
   private getColumnByDataField(dataField: string) {
-    return this.nativeInstance
-      .getVisibleColumns()
-      .find((d) => d.dataField === dataField);
+    return this.nativeInstance.getVisibleColumns().find((d) => d.dataField === dataField);
   }
 }

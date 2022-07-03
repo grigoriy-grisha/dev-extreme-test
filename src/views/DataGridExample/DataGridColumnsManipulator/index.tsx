@@ -1,11 +1,4 @@
-import React, {
-  memo,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-} from "react";
+import React, { memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import DataGrid from "devextreme-react/data-grid";
 import "devextreme/data/odata/store";
 import { Column } from "devextreme/ui/data_grid";
@@ -58,14 +51,7 @@ function DataGridColumnsManipulator({
 
   useImperativeHandle(setDataGridManager, () => dataGridManager, []);
 
-  return (
-    <DataGrid
-      ref={dataGrid}
-      defaultColumns={columnsScheme}
-      keyExpr={keyExpr}
-      dataSource={dataSource}
-    />
-  );
+  return <DataGrid ref={dataGrid} defaultColumns={columnsScheme} keyExpr={keyExpr} dataSource={dataSource} />;
 }
 
 export default memo(DataGridColumnsManipulator);

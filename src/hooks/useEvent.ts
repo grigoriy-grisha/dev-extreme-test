@@ -7,10 +7,7 @@ function useEvent<Handler extends (...args: any) => any>(handler: Handler) {
     handlerRef.current = handler;
   }, [{}]);
 
-  return useCallback(
-    (...args: Parameters<Handler>) => handlerRef.current(...args),
-    []
-  );
+  return useCallback((...args: Parameters<Handler>) => handlerRef.current(...args), []);
 }
 
 export default useEvent;

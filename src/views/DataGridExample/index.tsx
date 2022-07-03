@@ -40,11 +40,7 @@ export default function DataGridExample() {
       <div className="p-10 w-25">
         <div className="pb-10">
           {columns.map((item, index) => (
-            <UpdateColumnWrapper
-              column={item}
-              dataGridManager={dataGridManagerRef.current}
-              key={index}
-            />
+            <UpdateColumnWrapper column={item} dataGridManager={dataGridManagerRef.current} key={index} />
           ))}
         </div>
         <CreateColumnGrid

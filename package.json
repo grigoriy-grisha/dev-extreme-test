@@ -27,7 +27,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build-themes": "devextreme build",
-    "postinstall": "npm run build-themes"
+    "postinstall": "npm run build-themes",
+    "format": "prettier --write --list-different \"src/**/*.{ts,tsx,js,json,yml,scss}\" "
   },
   "eslintConfig": {
     "extends": [

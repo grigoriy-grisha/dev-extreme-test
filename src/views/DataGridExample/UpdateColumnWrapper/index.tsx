@@ -9,28 +9,17 @@ type UpdateColumnWrapperProps = {
   dataGridManager: DataGridManager;
 };
 
-function UpdateColumnWrapper({
-  column,
-  dataGridManager,
-}: UpdateColumnWrapperProps) {
-  const onDelete = useCallback(
-    () => dataGridManager.removeColumn(column.dataField),
-    [column.dataField]
-  );
+function UpdateColumnWrapper({ column, dataGridManager }: UpdateColumnWrapperProps) {
+  const onDelete = useCallback(() => dataGridManager.removeColumn(column.dataField), [column.dataField]);
 
   const onChangeCaption = useCallback(
-    (newName: string) =>
-      dataGridManager.changeColumnName(column.dataField, newName),
-    [column.dataField]
+    (newName: string) => dataGridManager.changeColumnName(column.dataField, newName),
+    [column.dataField],
   );
 
   return (
     <div className="pb-10">
-      <UpdateColumn
-        fieldName={column.caption}
-        onDelete={onDelete}
-        onSuccess={onChangeCaption}
-      />
+      <UpdateColumn fieldName={column.caption} onDelete={onDelete} onSuccess={onChangeCaption} />
     </div>
   );
 }
