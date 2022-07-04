@@ -10,7 +10,7 @@ type UpdateColumnProps = {
   onSuccess: (value: string) => void;
 };
 
-function UpdateColumn({ onSuccess, onDelete, fieldName }: UpdateColumnProps) {
+function UpdateColumnGrid({ onSuccess, onDelete, fieldName }: UpdateColumnProps) {
   const [value, setValue] = useState(fieldName || "");
 
   return (
@@ -24,4 +24,4 @@ function UpdateColumn({ onSuccess, onDelete, fieldName }: UpdateColumnProps) {
   );
 }
 
-export default memo(UpdateColumn);
+export default memo(UpdateColumnGrid);

@@ -5,7 +5,7 @@ import { Column } from "devextreme/ui/data_grid";
 import DataGridColumnsManipulator from "./DataGridColumnsManipulator";
 import { DataGridManager } from "./DataGridColumnsManipulator/model/DataGridManager";
 import CreateColumnGrid from "./CreateColumnGrid";
-import UpdateColumnWrapper from "./UpdateColumnWrapper";
+import UpdateColumnGridWrapper from "./UpdateColumnGridWrapper";
 
 const columnScheme = [
   {
@@ -52,7 +52,7 @@ export default function DataGridExample() {
       <div className="p-10 w-25">
         <div className="pb-10">
           {columns.map((item, index) => (
-            <UpdateColumnWrapper column={item} dataGridManager={dataGridManagerRef.current} key={index} />
+            <UpdateColumnGridWrapper column={item} dataGridManager={dataGridManagerRef.current} key={index} />
           ))}
         </div>
         <CreateColumnGrid
