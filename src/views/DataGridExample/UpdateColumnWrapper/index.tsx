@@ -10,11 +10,14 @@ type UpdateColumnWrapperProps = {
 };
 
 function UpdateColumnWrapper({ column, dataGridManager }: UpdateColumnWrapperProps) {
-  const onDelete = useCallback(() => dataGridManager.removeColumn(column.dataField), [column.dataField]);
+  const onDelete = useCallback(() => dataGridManager.removeColumn(column.dataField), [
+    column.dataField,
+    dataGridManager,
+  ]);
 
   const onChangeCaption = useCallback(
     (newName: string) => dataGridManager.changeColumnName(column.dataField, newName),
-    [column.dataField],
+    [column.dataField, dataGridManager],
   );
 
   return (

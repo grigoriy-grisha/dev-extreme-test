@@ -38,18 +38,18 @@ function DataGridColumnsManipulator({
   const notifyColumns = useCallback(() => {
     onChangeColumns(dataGridManager.getNativeInstance().getVisibleColumns());
     forceUpdate();
-  }, []);
+  }, [onChangeColumns, forceUpdate, dataGridManager]);
 
   useEffect(() => {
     dataGridManager.setNativeInstance(dataGrid.current.instance);
 
     dataGridManager.subscribe(notifyColumns);
     return () => dataGridManager.unsubscribe(notifyColumns);
-  }, []);
+  }, [dataGridManager, notifyColumns]);
 
-  useEffect(notifyColumns, []);
+  useEffect(notifyColumns, [notifyColumns]);
 
-  useImperativeHandle(setDataGridManager, () => dataGridManager, []);
+  useImperativeHandle(setDataGridManager, () => dataGridManager, [dataGridManager]);
 
   return <DataGrid ref={dataGrid} defaultColumns={columnsScheme} keyExpr={keyExpr} dataSource={dataSource} />;
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import "devextreme/data/odata/store";
 import { Column } from "devextreme/ui/data_grid";
 
@@ -18,6 +18,15 @@ const columnScheme = [
 
 const dataSource = [{ ID: 1, Hello: 123 }];
 
+function getColumnsNames(column: Column) {
+  return column.dataField as string;
+}
+
+function getColumns(dataGridManager: DataGridManager) {
+  if (!dataGridManager.getNativeInstance) return [];
+  return dataGridManager.getNativeInstance().getVisibleColumns();
+}
+
 export default function DataGridExample() {
   const dataGridManagerRef = useRef<DataGridManager>({} as any);
   const [columns, setColumns] = useState<Array<Column>>([]);
@@ -25,6 +34,9 @@ export default function DataGridExample() {
   const setDataGridManager = useCallback((dataGridManager: DataGridManager) => {
     dataGridManagerRef.current = dataGridManager;
   }, []);
+
+  const visibleColumns = getColumns(dataGridManagerRef.current);
+  const dataFieldNames = useMemo(() => visibleColumns.map(getColumnsNames), [visibleColumns]);
 
   return (
     <div className="d-flex">
@@ -48,6 +60,7 @@ export default function DataGridExample() {
           cancelText="Отмена"
           successText="Добавить"
           onSubmit={dataGridManagerRef.current.addColumn}
+          dataFieldNames={dataFieldNames}
         />
       </div>
     </div>

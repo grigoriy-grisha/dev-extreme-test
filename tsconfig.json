@@ -24,6 +24,7 @@
       "primitives/*": ["primitives/*"],
       "hooks/*": ["hooks/*"],
       "views/*": ["views/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": [
