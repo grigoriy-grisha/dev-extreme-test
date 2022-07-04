@@ -35,13 +35,14 @@ export class DataGridManager {
   changeColumnName = (dataField?: string, newColumnName?: string) => {
     if (!dataField || !newColumnName) return;
 
-    const visibleColumns = this.getColumnByDataField(dataField);
-    if (!visibleColumns) return;
-    if (visibleColumns.caption === newColumnName) return;
+    const foundColumn = this.getColumnByDataField(dataField);
+
+    if (!foundColumn) return;
+    if (foundColumn.caption === newColumnName) return;
 
     this.nativeInstance.deleteColumn(dataField);
     this.nativeInstance.addColumn({
-      ...visibleColumns,
+      ...foundColumn,
       caption: newColumnName,
     });
 
@@ -50,6 +51,12 @@ export class DataGridManager {
 
   removeColumn = (dataField?: string) => {
     if (!dataField) return;
+
+    //DataGrid почему-то не позволяет удалять колонки с сортировкой, поэтому перед удалением сбрасываем сортировку
+    const foundColumn = this.getColumnByDataField(dataField);
+    if (foundColumn?.sortOrder) {
+      this.nativeInstance.clearSorting();
+    }
 
     this.nativeInstance.deleteColumn(dataField);
     this.notify();
