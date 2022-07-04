@@ -6,17 +6,34 @@ import DataGridColumnsManipulator from "./DataGridColumnsManipulator";
 import { DataGridManager } from "./DataGridColumnsManipulator/model/DataGridManager";
 import CreateColumnGrid from "./CreateColumnGrid";
 import UpdateColumnGridWrapper from "./UpdateColumnGridWrapper";
+import useLoadMockData from "./hooks/useLoadMockData";
 
-const columnScheme = [
+const columnsScheme = [
   {
     alignment: "right",
-    dataField: "Hello",
+    dataField: "CompanyName",
     dataType: "string",
-    caption: "Hello Text",
+    caption: "CompanyName",
+  },
+  {
+    alignment: "right",
+    dataField: "City",
+    dataType: "string",
+    caption: "City",
+  },
+  {
+    alignment: "right",
+    dataField: "Country",
+    dataType: "string",
+    caption: "Country",
+  },
+  {
+    alignment: "right",
+    dataField: "Phone",
+    dataType: "string",
+    caption: "Phone",
   },
 ];
-
-const dataSource = [{ ID: 1, Hello: 123 }];
 
 function getColumnsNames(column: Column) {
   return column.dataField as string;
@@ -38,13 +55,15 @@ export default function DataGridExample() {
   const visibleColumns = getColumns(dataGridManagerRef.current);
   const dataFieldNames = useMemo(() => visibleColumns.map(getColumnsNames), [visibleColumns]);
 
+  const mockData = useLoadMockData();
+
   return (
-    <div className="d-flex">
+    <div className="d-flex p-10">
       <div className="p-10 w-75">
         <DataGridColumnsManipulator
-          dataSource={dataSource}
-          keyExpr="ID"
-          columnsScheme={columnScheme}
+          dataSource={mockData}
+          keyExpr="id"
+          columnsScheme={columnsScheme}
           onChangeColumns={setColumns}
           setDataGridManager={setDataGridManager}
         />
@@ -52,7 +71,11 @@ export default function DataGridExample() {
       <div className="p-10 w-25">
         <div className="pb-10">
           {columns.map((item, index) => (
-            <UpdateColumnGridWrapper column={item} dataGridManager={dataGridManagerRef.current} key={index} />
+            <UpdateColumnGridWrapper
+              column={item}
+              dataGridManager={dataGridManagerRef.current}
+              key={index + String(item.dataField)}
+            />
           ))}
         </div>
         <CreateColumnGrid

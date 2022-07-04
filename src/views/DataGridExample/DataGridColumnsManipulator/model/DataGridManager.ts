@@ -36,7 +36,8 @@ export class DataGridManager {
     if (!dataField || !newColumnName) return;
 
     const visibleColumns = this.getColumnByDataField(dataField);
-    if (!dataField) return;
+    if (!visibleColumns) return;
+    if (visibleColumns.caption === newColumnName) return;
 
     this.nativeInstance.deleteColumn(dataField);
     this.nativeInstance.addColumn({
